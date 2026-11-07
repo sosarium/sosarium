@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sosarium",
+  "account_id": "6d7a7de270dbce47aa2c190a86781cdf",
+  "compatibility_date": "2026-11-07",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  "assets": {
+    "directory": "./dist/client",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "sosarium.com",
+      "custom_domain": true
+    }
+  ]
+}
