@@ -1,0 +1,13 @@
+node_modules/
+.turbo/
+.tanstack/
+.output/
+.wrangler/
+dist/
+*.tsbuildinfo
+coverage/
+*.log
+.DS_Store
+.env
+.env.*
+reference/
