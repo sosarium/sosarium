@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@source "../**/*.{ts,tsx}";
+
+@theme {
+  --color-parchment: #efe3c8;
+  --color-ink: #16130e;
+  --color-bronze: #b08349;
+  --color-bronze-bright: #d8a860;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --color-ink: #f4ecdd;
+  --color-parchment: #2c2117;
+  --color-bronze: #8a6234;
+  --color-bronze-bright: #6f4a20;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] {
+    --color-ink: #f4ecdd;
+    --color-parchment: #2c2117;
+    --color-bronze: #8a6234;
+    --color-bronze-bright: #6f4a20;
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  .field-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23b8ad97' stroke-width='1.5'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5'/%3E%3C/svg%3E");
+    background-position: right 8px center;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    padding-right: 1.75rem;
+  }
+}
+
+@layer components {
+  .scroll-area {
+    scrollbar-width: none;
+  }
+
+  .scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-fade {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 3rem), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 3rem), transparent);
+  }
+
+  .scroll-fade-top {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3rem);
+    mask-image: linear-gradient(to bottom, transparent, #000 3rem);
+  }
+
+  .scroll-fade-both {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+  }
+}
