@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { invalidateRadarColors, loadRadarColors, saveRadarColors, setRadarColor } from '@/lib/radarcol-session';
 import { useSession } from '@/lib/session';
 
@@ -17,6 +18,7 @@ function normalizeHex(value: number): string {
 }
 
 function RadarColPage() {
+  useDocumentMeta('Radar colors — Sosarium');
   const session = useSession();
   const [colors, setColors] = useState<Uint16Array | null>(null);
   const [original, setOriginal] = useState<Uint16Array | null>(null);

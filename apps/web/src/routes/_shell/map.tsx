@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapHeader } from '@/components/map/map-header';
 import { MapSidebar } from '@/components/map/map-sidebar';
 import { MapStage } from '@/components/map/map-stage';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { saveFacet, setLandTile } from '@/lib/map-edit';
 import { type FacetInfo, listFacets, prepareFacetWorker } from '@/lib/map-session';
 import { type BlockData, CANVAS_PX, DEFAULT_ZOOM, failPending, flattenStatics } from '@/lib/map-view';
@@ -24,6 +25,7 @@ export const Route = createFileRoute('/_shell/map')({
 });
 
 function MapPage() {
+  useDocumentMeta('Map — Sosarium');
   const session = useSession();
   const [facets, setFacets] = useState<FacetInfo[]>([]);
   const [facet, setFacet] = useState(0);

@@ -1,5 +1,6 @@
 import type { ClientFileEntry, ClientFlavor } from '@sosarium/core';
 
+import { useDocumentMeta } from '@/lib/document-meta';
 import { EDITORS } from '@/lib/editors';
 import { useSession } from '@/lib/session';
 
@@ -61,6 +62,7 @@ function flavorChips(
 }
 
 export function Overview() {
+  useDocumentMeta('Overview — Sosarium');
   const session = useSession();
   const { flavor, files } = session;
 

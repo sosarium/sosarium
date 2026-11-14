@@ -24,6 +24,7 @@ import { animationDetails, createPreviewLoader } from '@/lib/animation-preview';
 import { getAnimdata, saveAnimationEdits } from '@/lib/animations-save';
 import { getAnimationSource, invalidateAnimationSource } from '@/lib/animations-session';
 import { tileToCanvas, tileToPngBlob } from '@/lib/art-image';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { getPreferences } from '@/lib/preferences';
 import { useSession } from '@/lib/session';
 
@@ -38,6 +39,7 @@ const CANVAS_HEIGHT = 260;
 const groupKey = (body: number, action: number, direction: number) => `${body}:${action}:${direction}`;
 
 function AnimationPlayer() {
+  useDocumentMeta('Animations — Sosarium');
   const session = useSession();
   const [source, setSource] = useState<AnimationSource | null>(null);
   const [error, setError] = useState<string | null>(null);

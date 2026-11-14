@@ -21,6 +21,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { GitHubButton } from '@/components/github-button';
 import { tileToCanvas } from '@/lib/art-image';
 import { getArtSource } from '@/lib/art-session';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { renderMultiComposition } from '@/lib/multi-image';
 import { loadVerdata } from '@/lib/radarcol-session';
 import { useSession } from '@/lib/session';
@@ -169,6 +170,7 @@ function decodePreview(patch: Patch, payload: Uint8Array): DecodedPreview {
 }
 
 function VerdataPage() {
+  useDocumentMeta('Verdata — Sosarium');
   const session = useSession();
   const [bundle, setBundle] = useState<Bundle | null>(null);
   const [status, setStatus] = useState('idle');

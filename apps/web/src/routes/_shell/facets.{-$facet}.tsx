@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FacetOverviewPanel } from '@/components/facets/facet-overview-panel';
 import { FacetsHeader } from '@/components/facets/facets-header';
 import { formatIndexParam, parseIndexParam } from '@/lib/deep-link';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { FACET_NAMES, type FacetInfo, listFacets, prepareFacetWorker } from '@/lib/map-session';
 import { failPending } from '@/lib/map-view';
 import type { MapWorkerInit, MapWorkerResponse } from '@/lib/map-worker-protocol';
@@ -40,6 +41,7 @@ function tileKey(originX: number, originY: number, scale: number, statics: boole
 }
 
 function FacetsPage() {
+  useDocumentMeta('Facets — Sosarium');
   const session = useSession();
   const params = Route.useParams();
   const search = Route.useSearch();

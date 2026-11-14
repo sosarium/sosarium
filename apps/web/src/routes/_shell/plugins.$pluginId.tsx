@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useRef } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { usePluginState } from '@/lib/plugin-state';
 import { useSession } from '@/lib/session';
 import { createPluginApi } from '@/plugins/api';
@@ -16,6 +17,7 @@ function PluginPage() {
   const session = useSession();
   const enabled = usePluginState();
   const plugin = PLUGINS.find((entry) => entry.manifest.id === pluginId) ?? null;
+  useDocumentMeta(`${plugin?.manifest.name ?? 'Plugin'} — Sosarium`);
   const available = plugin ? !session.flavor || (plugin.manifest.available?.(session.flavor) ?? true) : false;
   const active = Boolean(plugin && available && enabled[pluginId]);
   const mountRef = useRef<HTMLDivElement>(null);

@@ -7,6 +7,7 @@ import { GitHubButton } from '@/components/github-button';
 import { HueRamp } from '@/components/hues/hue-ramp';
 import { tileToCanvas } from '@/lib/art-image';
 import { getArtSource } from '@/lib/art-session';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { getHueDataSource, saveHueDataSource } from '@/lib/hues-session';
 import { useSession } from '@/lib/session';
 
@@ -24,6 +25,7 @@ function parseArtIndex(text: string): number {
 }
 
 function HueEditor() {
+  useDocumentMeta('Hues — Sosarium');
   const session = useSession();
   const [source, setSource] = useState<HueDataSource | null>(null);
   const [error, setError] = useState<string | null>(null);

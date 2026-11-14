@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { drawFontText, drawUnicodeText, glyphToCanvas, unicodeGlyphToCanvas } from '@/lib/font-image';
 import { useSession } from '@/lib/session';
 import { loadFonts, loadUnicodeFonts, type UnicodeFontEntry } from '@/lib/text-session';
@@ -84,6 +85,7 @@ function GlyphCell({
 }
 
 function FontsPage() {
+  useDocumentMeta('Fonts — Sosarium');
   const session = useSession();
   const [fonts, setFonts] = useState<Awaited<ReturnType<typeof loadFonts>>>(null);
   const [unicodeFonts, setUnicodeFonts] = useState<UnicodeFontEntry[]>([]);

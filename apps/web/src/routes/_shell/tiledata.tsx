@@ -15,6 +15,7 @@ import { IndexTable, type IndexTableRow } from '@/components/common/index-table'
 import { GitHubButton } from '@/components/github-button';
 import { tileToCanvas } from '@/lib/art-image';
 import { getArtSource } from '@/lib/art-session';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { useSession } from '@/lib/session';
 import { getTileDataSource, saveTileDataSource } from '@/lib/tiledata-session';
 
@@ -25,6 +26,7 @@ export const Route = createFileRoute('/_shell/tiledata')({
 type SourceData = TileDataSource;
 
 function TileDataEditor() {
+  useDocumentMeta('TileData — Sosarium');
   const session = useSession();
   const [source, setSource] = useState<SourceData | null>(null);
   const [error, setError] = useState<string | null>(null);

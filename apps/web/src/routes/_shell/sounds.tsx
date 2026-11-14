@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { loadSounds } from '@/lib/misc-session';
 import { useSession } from '@/lib/session';
 
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/_shell/sounds')({
 });
 
 function SoundsPage() {
+  useDocumentMeta('Sounds — Sosarium');
   const session = useSession();
   const [entries, setEntries] = useState<{ id: number; name: string; seconds: number }[] | null>(null);
   const [loaded, setLoaded] = useState(false);

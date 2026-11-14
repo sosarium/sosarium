@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { pluginStore, usePluginState } from '@/lib/plugin-state';
 import { useSession } from '@/lib/session';
 import { PLUGINS } from '@/plugins/registry';
@@ -10,6 +11,7 @@ export const Route = createFileRoute('/_shell/plugins/')({
 });
 
 function PluginsPage() {
+  useDocumentMeta('Plugins — Sosarium');
   const session = useSession();
   const enabled = usePluginState();
   return (

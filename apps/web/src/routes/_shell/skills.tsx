@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { loadSkills } from '@/lib/misc-session';
 import { useSession } from '@/lib/session';
 
@@ -11,6 +12,7 @@ export const Route = createFileRoute('/_shell/skills')({
 });
 
 function SkillsPage() {
+  useDocumentMeta('Skills — Sosarium');
   const session = useSession();
   const [skills, setSkills] = useState<SkillEntry[]>([]);
   const [search, setSearch] = useState('');

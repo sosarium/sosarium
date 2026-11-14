@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
 import { type DragState, SkillGroupSection } from '@/components/skillgroups/skill-group-section';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { loadSkills } from '@/lib/misc-session';
 import { useSession } from '@/lib/session';
 import { writeSessionFile } from '@/lib/session-files';
@@ -52,6 +53,7 @@ function toLoadedState(skills: SkillEntry[], groups: SkillGroupsFile) {
 }
 
 function SkillGroupsPage() {
+  useDocumentMeta('Skill groups — Sosarium');
   const session = useSession();
   const [model, setModel] = useState<SkillGroupsModel | null>(null);
   const [snapshot, setSnapshot] = useState<SkillGroupsSnapshot | null>(null);

@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { useSession } from '@/lib/session';
 import { listClilocLocales, loadCliloc, saveCliloc } from '@/lib/text-session';
 
@@ -13,6 +14,7 @@ export const Route = createFileRoute('/_shell/cliloc')({
 const ROW_HEIGHT = 26;
 
 function ClilocPage() {
+  useDocumentMeta('Cliloc — Sosarium');
   const session = useSession();
   const [locale, setLocale] = useState('enu');
   const [file, setFile] = useState<ClilocFile | null>(null);

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useSyncExternalStore } from 'react';
 
+import { useDocumentMeta } from '@/lib/document-meta';
 import { getPreferences, subscribePreferences, updatePreferences } from '@/lib/preferences';
 import { setTheme } from '@/lib/theme';
 
@@ -9,6 +10,7 @@ export const Route = createFileRoute('/_shell/options')({
 });
 
 function OptionsPage() {
+  useDocumentMeta('Options — Sosarium');
   const preferences = useSyncExternalStore(subscribePreferences, getPreferences, getPreferences);
 
   return (

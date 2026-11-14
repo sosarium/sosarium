@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { GitHubButton } from '@/components/github-button';
+import { useDocumentMeta } from '@/lib/document-meta';
 import { useSession } from '@/lib/session';
 import { loadSpeech, saveSpeech } from '@/lib/text-session';
 
@@ -11,6 +12,7 @@ export const Route = createFileRoute('/_shell/speech')({
 });
 
 function SpeechPage() {
+  useDocumentMeta('Speech — Sosarium');
   const session = useSession();
   const [entries, setEntries] = useState<SpeechEntry[]>([]);
   const [edits, setEdits] = useState<Map<number, string>>(new Map());
