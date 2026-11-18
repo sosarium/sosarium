@@ -1,7 +1,9 @@
 import { type ClientFileEntry, detectClientFlavor, detectClientVersion } from '@sosarium/core';
 
 import { clearDirectoryHandle, loadDirectoryHandle, saveDirectoryHandle } from './idb';
-import { type SessionMode, type SessionState, sessionStore } from './session';
+import { emptySession, type SessionMode, type SessionState, sessionStore } from './session';
+
+const RESTORE_TIMEOUT_MS = 5000;
 
 async function readClientVersion(
   files: ClientFileEntry[],
@@ -140,24 +142,34 @@ async function doRestore(): Promise<void> {
   if (sessionStore.getState().status !== 'empty') {
     return;
   }
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timedOut = new Promise<'stalled'>((resolve) => {
+    timer = setTimeout(() => resolve('stalled'), RESTORE_TIMEOUT_MS);
+  });
+  const result = await Promise.race([readSavedSession().catch(() => 'stalled' as const), timedOut]);
+  clearTimeout(timer);
+  if (result === 'stalled') {
+    sessionStore.set({ ...emptySession, status: 'stalled' });
+  } else if (result) {
+    sessionStore.set(result);
+  }
+}
+
+async function readSavedSession(): Promise<SessionState | null> {
   const handle = await loadDirectoryHandle();
   if (!handle) {
-    return;
+    return null;
   }
 
-  const writePermission = await handle.queryPermission({ mode: 'readwrite' });
-  if (writePermission === 'granted') {
-    sessionStore.set(await openDirectory(handle, 'readwrite', false));
-    return;
+  if ((await handle.queryPermission({ mode: 'readwrite' })) === 'granted') {
+    return openDirectory(handle, 'readwrite', false);
   }
 
-  const readPermission = await handle.queryPermission({ mode: 'read' });
-  if (readPermission === 'granted') {
-    sessionStore.set(await openDirectory(handle, 'readonly', false));
-    return;
+  if ((await handle.queryPermission({ mode: 'read' })) === 'granted') {
+    return openDirectory(handle, 'readonly', false);
   }
 
-  sessionStore.set({
+  return {
     status: 'needs-permission',
     name: handle.name,
     mode: 'readonly',
@@ -166,7 +178,7 @@ async function doRestore(): Promise<void> {
     files: [],
     handle,
     filesByName: null
-  });
+  };
 }
 
 export async function reconnect(): Promise<boolean> {

@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react';
 export type SessionMode = 'readwrite' | 'readonly';
 
 export interface SessionState {
-  status: 'empty' | 'ready' | 'needs-permission';
+  status: 'empty' | 'ready' | 'needs-permission' | 'stalled';
   name: string | null;
   mode: SessionMode;
   flavor: ClientFlavor | null;
@@ -14,7 +14,7 @@ export interface SessionState {
   filesByName: Map<string, File> | null;
 }
 
-const emptyState: SessionState = {
+export const emptySession: SessionState = {
   status: 'empty',
   name: null,
   mode: 'readonly',
@@ -25,7 +25,7 @@ const emptyState: SessionState = {
   filesByName: null
 };
 
-let state: SessionState = emptyState;
+let state: SessionState = emptySession;
 const listeners = new Set<() => void>();
 
 export const sessionStore = {
@@ -43,7 +43,7 @@ export const sessionStore = {
     }
   },
   reset() {
-    sessionStore.set(emptyState);
+    sessionStore.set(emptySession);
   }
 };
 

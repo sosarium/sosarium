@@ -7,7 +7,7 @@ import { sessionStore } from '@/lib/session';
 export const Route = createFileRoute('/_shell')({
   beforeLoad: async () => {
     await restoreSession();
-    if (typeof window !== 'undefined' && sessionStore.getState().status === 'empty') {
+    if (typeof window !== 'undefined' && ['empty', 'stalled'].includes(sessionStore.getState().status)) {
       throw redirect({ to: '/' });
     }
   },

@@ -4,13 +4,14 @@ import { type ChangeEvent, type DragEvent, useEffect, useRef, useState } from 'r
 import { Logo } from '@/components/logo';
 import { loadDirectoryHandle } from '@/lib/idb';
 import {
+  closeSession,
   openDirectory,
   openDroppedDirectory,
   openFileList,
   pickUoFolder,
   supportsDirectoryPicker
 } from '@/lib/open-folder';
-import { type SessionState, sessionStore } from '@/lib/session';
+import { type SessionState, sessionStore, useSession } from '@/lib/session';
 
 const NOT_A_CLIENT_MESSAGE =
   "This doesn't look like a Ultima Online client folder — no art, gump, map or tiledata files were found.";
@@ -20,6 +21,7 @@ export function Splash() {
   const [recentName, setRecentName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const stalled = useSession().status === 'stalled';
 
   useEffect(() => {
     loadDirectoryHandle()
@@ -87,6 +89,16 @@ export function Splash() {
     }
   };
 
+  const handleForget = async () => {
+    setBusy(true);
+    try {
+      await closeSession();
+      setRecentName(null);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const handleFiles = async (event: ChangeEvent<HTMLInputElement>) => {
     setError(null);
     const list = event.target.files;
@@ -142,6 +154,20 @@ export function Splash() {
           <p className="mt-3 text-sm tracking-widest text-parchment/60">View and edit Ultima Online files.</p>
         </div>
 
+        {stalled ? (
+          <div className="flex w-full flex-col items-center gap-2 rounded border border-red-900/60 bg-red-950/40 px-4 py-3 text-sm text-red-200/90">
+            <p>The last folder couldn't be reopened.</p>
+            <button
+              className="text-xs underline hover:text-red-100 disabled:opacity-50"
+              disabled={busy}
+              onClick={handleForget}
+              type="button"
+            >
+              Forget folder
+            </button>
+          </div>
+        ) : null}
+
         {error ? (
           <p className="w-full rounded border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-200/90">
             {error}
@@ -172,7 +198,7 @@ export function Splash() {
             {busy ? 'Opening…' : 'Select'}
           </button>
 
-          {recentName ? (
+          {recentName && !stalled ? (
             <button
               className="text-xs text-parchment/50 underline hover:text-parchment/80 disabled:opacity-50"
               disabled={busy}
